@@ -8,7 +8,7 @@ namespace ExerciseLogAPI.ApiModels
 {
     public class ActivityModel
     {
-        public int id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public DateTime Date { get; set; }
@@ -25,7 +25,7 @@ namespace ExerciseLogAPI.ApiModels
         public int UserId { get; set; }
         public string User { get; set; }
 
-        public string notes { get; set; }
+        public string Notes { get; set; }
 
     }
 }

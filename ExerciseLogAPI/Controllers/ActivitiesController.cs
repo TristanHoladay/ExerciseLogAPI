@@ -3,44 +3,81 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using ExerciseLogAPI.Core.Services;
+using ExerciseLogAPI.Core.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ExerciseLogAPI.Controllers
 {
     [Route("api/[controller]")]
-    public class ActivitiesController : Controller
+    [ApiController]
+    public class ActivitiesController : ControllerBase
     {
-        // GET: api/<controller>
+        //Injection
+        private IActivityService _activityService { get; set; }
+
+        public ActivitiesController(IActivityService activityService)
+        {
+            _activityService = activityService;
+        }
+
+        // GET: api/activities
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult GetAll()
         {
-            return new string[] { "value1", "value2" };
+            IEnumerable<Activity> activities = _activityService.GetAll();
+            if (activities == null)
+                return NotFound();
+
+            return Ok(activities);
         }
 
-        // GET api/<controller>/5
+        // GET api/activities
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            Activity activity = _activityService.Get(id);
+
+            if (activity == null)
+                return NotFound();
+
+            return Ok(activity);
         }
 
-        // POST api/<controller>
+        // POST api/activities
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult Post([FromBody]Activity newActivity)
         {
+            if (_activityService.Add(newActivity) == null)
+                return BadRequest();
+
+            return CreatedAtAction("Get", new { Id = newActivity.Id }, newActivity);
         }
 
-        // PUT api/<controller>/5
+        // PUT api/activities/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public IActionResult Put(int id, [FromBody]Activity updatedActivity)
         {
+            Activity activity = _activityService.Update(updatedActivity);
+
+            if (activity == null)
+                return BadRequest();
+
+            return Ok(updatedActivity);
         }
 
-        // DELETE api/<controller>/5
+        // DELETE api/activities/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            Activity delActivity = _activityService.Get(id);
+
+            if (delActivity == null)
+                return NotFound();
+
+            _activityService.Remove(delActivity);
+            return NoContent();
         }
     }
 }
