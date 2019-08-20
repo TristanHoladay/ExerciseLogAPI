@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ExerciseLogAPI.Core.Services;
 using ExerciseLogAPI.Core.Models;
+using ExerciseLogAPI.ApiModels;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -30,7 +31,7 @@ namespace ExerciseLogAPI.Controllers
             if (activities == null)
                 return NotFound();
 
-            return Ok(activities);
+            return Ok(activities.ToApiModels());
         }
 
         // GET api/activities
@@ -42,7 +43,7 @@ namespace ExerciseLogAPI.Controllers
             if (activity == null)
                 return NotFound();
 
-            return Ok(activity);
+            return Ok(activity.ToApiModel());
         }
 
         // POST api/activities

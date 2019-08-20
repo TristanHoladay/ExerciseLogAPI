@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using ExerciseLogAPI.
+using ExerciseLogAPI.Infrastructure.Data;
+using ExerciseLogAPI.Core.Services;
 
 namespace ExerciseLogAPI
 {

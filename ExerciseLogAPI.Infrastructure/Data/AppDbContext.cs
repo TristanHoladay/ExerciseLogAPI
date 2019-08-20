@@ -15,7 +15,7 @@ namespace ExerciseLogAPI.Infrastructure.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data source = ExerciseLog.db");
+            optionsBuilder.UseSqlite("Data source = ../ExerciseLogApi.Infrastructure/ExerciseLog.db");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

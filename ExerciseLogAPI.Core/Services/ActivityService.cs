@@ -10,15 +10,29 @@ namespace ExerciseLogAPI.Core.Services
 
         //Injection
         private IActivityRepository _activityRepo { get; set; }
+        private IActivityTypeRepository _activityTypeRepo { get; set; }
 
-        public ActivityService(IActivityRepository activityRepo)
+        public ActivityService(IActivityRepository activityRepo, IActivityTypeRepository activityTypeRepository)
         {
             _activityRepo = activityRepo;
+            _activityTypeRepo = activityTypeRepository;
         }
+
+
 
         //Create
         public Activity Add(Activity activity)
         {
+            var activityType = _activityTypeRepo.Get(activity.ActivityTypeId);
+            if(activityType.RecordType == RecordType.DurationAndDistance && activity.Distance <= 0)
+            {
+                throw new ApplicationException("You must supply a Distance for this activity.");
+            }
+
+            if(activity.Duration <=0 )
+            {
+                throw new ApplicationException("You must supply a duration for this activity.");
+            }
             _activityRepo.Add(activity);
             return activity;
         }
